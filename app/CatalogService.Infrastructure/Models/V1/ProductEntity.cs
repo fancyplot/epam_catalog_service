@@ -1,27 +1,20 @@
-﻿//using System.ComponentModel.DataAnnotations;
-//using Microsoft.EntityFrameworkCore;
+﻿namespace CatalogService.Infrastructure.Models.V1;
 
-//namespace CatalogService.Infrastructure.Models.V1;
+public class ProductEntity
+{
+    public int Id { get; set; }
 
-//public class ProductEntity
-//{
-//    public Guid Id { get; set; }
+    public string Name { get; set; }
 
-//    [Required]
-//    [MaxLength(50)]
-//    public string Name { get; set; }
-    
-//    public string Description { get; set; }
-    
-//    [Required]
-//    [Precision(14, 2)]
-//    public decimal Price { get; set; }
-    
-//    public string Image { get; set; }
-    
-//    [Required]
-//    public CategoryEntity Category { get; set; }
-    
-//    [Required]
-//    public int Amount { get; set; }
-//}
+    public string? Description { get; set; }
+
+    public decimal Price { get; set; }
+
+    public string? Image { get; set; }
+
+    public CategoryEntity Category { get; set; }
+
+    public int CategoryId { get; set; }
+
+    public int Amount { get; set; }
+}

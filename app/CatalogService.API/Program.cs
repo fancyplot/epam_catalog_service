@@ -1,3 +1,4 @@
+using CatalogService.API.AutoMapper;
 using CatalogService.Domain.AutoMapper;
 using CatalogService.Domain.Interfaces.V1;
 using CatalogService.Domain.Models.V1;
@@ -17,8 +18,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Category>());
-builder.Services.AddAutoMapper(typeof(AutoMapperProfileInfrastructure), typeof(AutoMapperProfileDomain));
+builder.Services.AddAutoMapper(typeof(AutoMapperProfileInfrastructure), typeof(AutoMapperProfileDomain), typeof(AutoMapperProfileApi));
 builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 builder.Services.AddDbContext<ApplicationContext>(
     options => options.UseSqlServer("Server=localhost;Database=EpamLearning;Trusted_Connection=True;TrustServerCertificate=true"));
 

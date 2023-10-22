@@ -20,13 +20,13 @@ public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, Cate
     {
         var category = _mapper.Map<Category>(request);
 
-        var existingCategory = await _categoriesRepository.GetAsync(request.Name, cancellationToken);
+        var existingCategory = await _categoriesRepository.GetByNameAsync(request.Name, cancellationToken);
         if (existingCategory != null)
             throw new ArgumentException($"Category with name {request.Name} already exists");
 
         await _categoriesRepository.CreateAsync(category, cancellationToken);
 
-        var createdCategory = await _categoriesRepository.GetAsync(request.Name, cancellationToken);
+        var createdCategory = await _categoriesRepository.GetByNameAsync(request.Name, cancellationToken);
 
         if (createdCategory == null)
             throw new Exception($"Category with name {request.Name} was not created");

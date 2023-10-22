@@ -21,4 +21,8 @@
     <ProjectReference Include="..\CatalogService.Infrastructure\CatalogService.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AutoMapper\" />
+  </ItemGroup>
+
 </Project>

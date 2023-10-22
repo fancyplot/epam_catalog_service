@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CatalogService.Domain.Commands.V1.CreateCategory;
 using CatalogService.Domain.Interfaces.V1;
 using CatalogService.Domain.Models.V1;
 using MediatR;
@@ -21,13 +20,13 @@ public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, Cate
     {
         var category = _mapper.Map<Category>(request);
 
-        var existingCategory = await _categoriesRepository.GetAsync(request.Id, cancellationToken);
+        var existingCategory = await _categoriesRepository.GetByIdAsync(request.Id, cancellationToken);
         if (existingCategory == null)
             throw new ArgumentException($"Category with id {request.Id} does not exists");
 
         await _categoriesRepository.UpdateAsync(category, cancellationToken);
 
-        var createdCategory = await _categoriesRepository.GetAsync(request.Id, cancellationToken);
+        var createdCategory = await _categoriesRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (createdCategory == null)
             throw new Exception($"Category with id {request.Id} does not exists");

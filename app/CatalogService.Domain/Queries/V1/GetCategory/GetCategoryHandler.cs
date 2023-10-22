@@ -15,6 +15,6 @@ public class GetCategoryHandler : IRequestHandler<GetCategoryQuery, Category>
 
     public async Task<Category> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
     {
-        return await _cartsRepository.GetAsync(request.Name, cancellationToken);
+        return await _cartsRepository.GetByNameAsync(request.Name, cancellationToken);
     }
 }

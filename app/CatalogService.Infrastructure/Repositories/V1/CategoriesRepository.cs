@@ -26,14 +26,14 @@ public class CategoriesRepository : ICategoriesRepository
         return Task.FromResult(_mapper.Map<IEnumerable<Category>>(categories));
     }
 
-    public Task<Category> GetAsync(string name, CancellationToken cancellationToken)
+    public Task<Category> GetByNameAsync(string name, CancellationToken cancellationToken)
     {
         var entity = _context.Categories.FirstOrDefault(t => t.Name == name);
 
         return Task.FromResult(_mapper.Map<Category>(entity));
     }
 
-    public Task<Category> GetAsync(int id, CancellationToken cancellationToken)
+    public Task<Category> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         var entity = _context.Categories.FirstOrDefault(t => t.Id == id);
 

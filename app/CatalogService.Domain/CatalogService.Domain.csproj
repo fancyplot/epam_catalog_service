@@ -12,7 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Commands\V1\CreateProduct\" />
     <Folder Include="Queries\V1\GetAllCategories\" />
+    <Folder Include="Queries\V1\GetAllProducts\" />
+    <Folder Include="Queries\V1\GetProduct\" />
   </ItemGroup>
 
 </Project>

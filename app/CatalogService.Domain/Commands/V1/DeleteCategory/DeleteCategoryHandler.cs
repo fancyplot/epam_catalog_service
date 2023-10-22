@@ -14,13 +14,13 @@ public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand>
 
     public async Task Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
-        var existingCategory = await _cartsRepository.GetAsync(request.Name, cancellationToken);
+        var existingCategory = await _cartsRepository.GetByNameAsync(request.Name, cancellationToken);
         if (existingCategory == null)
             throw new KeyNotFoundException($"Category with name {request.Name} does not exist");
 
         await _cartsRepository.DeleteAsync(request.Name, cancellationToken);
 
-        var deletedCategory = await _cartsRepository.GetAsync(request.Name, cancellationToken);
+        var deletedCategory = await _cartsRepository.GetByNameAsync(request.Name, cancellationToken);
         if(deletedCategory != null)
             throw new Exception($"Category with name {request.Name} was not deleted");
     }

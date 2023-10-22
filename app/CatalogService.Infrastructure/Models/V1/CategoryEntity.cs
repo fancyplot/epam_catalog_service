@@ -14,4 +14,6 @@ public class CategoryEntity
 
     public List<CategoryEntity>? Child { get; set; }
 
+    public List<ProductEntity>? Products { get; set; }
+
 }

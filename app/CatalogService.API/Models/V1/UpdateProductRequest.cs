@@ -1,7 +1,10 @@
-﻿namespace CatalogService.Domain.Models.V1;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class Product
+namespace CatalogService.API.Models.V1;
+
+public class UpdateProductRequest
 {
+    [Required]
     public int Id { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }

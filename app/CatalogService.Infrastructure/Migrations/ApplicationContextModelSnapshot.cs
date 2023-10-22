@@ -48,6 +48,42 @@ namespace CatalogService.Infrastructure.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("CatalogService.Infrastructure.Models.V1.ProductEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Products");
+                });
+
             modelBuilder.Entity("CatalogService.Infrastructure.Models.V1.CategoryEntity", b =>
                 {
                     b.HasOne("CatalogService.Infrastructure.Models.V1.CategoryEntity", "Parent")
@@ -57,9 +93,22 @@ namespace CatalogService.Infrastructure.Migrations
                     b.Navigation("Parent");
                 });
 
+            modelBuilder.Entity("CatalogService.Infrastructure.Models.V1.ProductEntity", b =>
+                {
+                    b.HasOne("CatalogService.Infrastructure.Models.V1.CategoryEntity", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("CatalogService.Infrastructure.Models.V1.CategoryEntity", b =>
                 {
                     b.Navigation("Child");
+
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
