@@ -1,10 +1,9 @@
-﻿using AutoMapper;
-using AutoMapper.Configuration.Conventions;
+﻿using System.Linq;
+using AutoMapper;
 using CatalogService.Domain.Interfaces.V1;
 using CatalogService.Domain.Models.V1;
 using CatalogService.Infrastructure.DbContext;
 using CatalogService.Infrastructure.Models.V1;
-using Microsoft.EntityFrameworkCore;
 
 namespace CatalogService.Infrastructure.Repositories.V1;
 
@@ -20,9 +19,14 @@ public class ProductsRepository : IProductsRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken)
+    public Task<IEnumerable<Product>> GetAllAsync(int? categoryId, int? pageNumber, int? pageSize, CancellationToken cancellationToken)
     {
-        var products = _context.Products;
+        var products = _context.Products.AsQueryable();
+        if (categoryId != null)
+            products = products.Where(t => t.CategoryId == categoryId);
+
+        if (pageNumber != null && pageSize != null)
+            products = products.OrderBy(t => t.Id).Skip((int)(pageNumber - 1) * (int)pageSize).Take((int)pageSize);
 
         return Task.FromResult(_mapper.Map<IEnumerable<Product>>(products));
     }

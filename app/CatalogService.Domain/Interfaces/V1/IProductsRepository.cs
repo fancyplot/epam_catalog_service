@@ -4,7 +4,7 @@ namespace CatalogService.Domain.Interfaces.V1;
 
 public interface IProductsRepository
 {
-    Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<Product>> GetAllAsync(int? categoryId, int? pageNumber, int? pageSize, CancellationToken cancellationToken);
 
     Task<IEnumerable<Product>> GetAsync(string name, CancellationToken cancellationToken);
 

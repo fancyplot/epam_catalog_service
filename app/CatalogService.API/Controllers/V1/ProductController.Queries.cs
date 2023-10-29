@@ -21,9 +21,20 @@ public partial class ProductController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetAllAsync(int? categoryId = null, int? pageNumber = null, int? pageSize = null, CancellationToken cancellationToken = default)
     {
-        var result = await _mediator.Send(new GetAllProductsQuery(), cancellationToken);
+        if (pageNumber != null && pageNumber <= 0)
+            return BadRequest("Page number should be more than zero.");
+
+        if (pageNumber != null && (pageSize == null || pageSize <= 0))
+            return BadRequest("Page size should be more than zero.");
+
+        var result = await _mediator.Send(new GetAllProductsQuery()
+        {
+            CategoryId = categoryId,
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        }, cancellationToken);
 
         if (!result.Any())
             return NoContent();
