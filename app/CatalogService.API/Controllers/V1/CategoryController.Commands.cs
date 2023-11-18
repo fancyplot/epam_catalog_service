@@ -8,6 +8,14 @@ namespace CatalogService.API.Controllers.V1;
 
 public partial class CategoryController
 {
+    /// <summary>
+    /// Creates a new category
+    /// </summary>
+    /// <param name="name">The category name</param>
+    /// <param name="image">The category image URL</param>
+    /// <param name="parenId">The parent category id</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>The created category response</returns>
     [HttpPost]
     public async Task<IActionResult> PostAsync([Required] string name, string image, int? parenId, CancellationToken cancellationToken = default)
     {

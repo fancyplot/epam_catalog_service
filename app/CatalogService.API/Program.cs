@@ -1,3 +1,4 @@
+using System.Reflection;
 using CatalogService.API.AutoMapper;
 using CatalogService.Domain.AutoMapper;
 using CatalogService.Domain.Interfaces.V1;
@@ -17,7 +18,11 @@ builder.Services.AddControllers(
     options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(o =>
+{
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    o.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Category>());
 builder.Services.AddAutoMapper(typeof(AutoMapperProfileInfrastructure), typeof(AutoMapperProfileDomain), typeof(AutoMapperProfileApi));
