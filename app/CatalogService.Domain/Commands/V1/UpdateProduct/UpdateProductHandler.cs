@@ -10,12 +10,15 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Produc
     private readonly IProductsRepository _productsRepository;
     private readonly ICategoriesRepository _categoriesRepository;
     private readonly IMapper _mapper;
-
-    public UpdateProductHandler(IProductsRepository productsRepository, ICategoriesRepository categoriesRepository, IMapper mapper)
+    private readonly IMessageBroker _messageBroker;
+    
+    public UpdateProductHandler(IProductsRepository productsRepository, ICategoriesRepository categoriesRepository, IMapper mapper,
+        IMessageBroker messageBroker)
     {
         _productsRepository = productsRepository ?? throw new ArgumentNullException(nameof(productsRepository));
         _categoriesRepository = categoriesRepository ?? throw new ArgumentNullException(nameof(categoriesRepository));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _messageBroker = messageBroker ?? throw new ArgumentNullException(nameof(messageBroker));
     }
 
     public async Task<Product> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -46,6 +49,8 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Produc
 
         if (updatedProduct == null)
             throw new Exception($"Product with id {request.Id} was not updated.");
+
+        await _messageBroker.PublishAsync(updatedProduct, cancellationToken);
 
         return updatedProduct;
     }
