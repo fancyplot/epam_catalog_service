@@ -2,6 +2,7 @@
 using CatalogService.Domain.Commands.V1.CreateCategory;
 using CatalogService.Domain.Commands.V1.DeleteCategory;
 using CatalogService.Domain.Commands.V1.UpdateCategory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.API.Controllers.V1;
@@ -17,6 +18,7 @@ public partial class CategoryController
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>The created category response</returns>
     [HttpPost]
+    [Authorize("ManagerPolicy")]
     public async Task<IActionResult> PostAsync([Required] string name, string image, int? parenId, CancellationToken cancellationToken = default)
     {
         try
@@ -38,6 +40,7 @@ public partial class CategoryController
     }
 
     [HttpDelete("{name}")]
+    [Authorize("ManagerPolicy")]
     public async Task<IActionResult> DeleteAsync(string name, CancellationToken cancellationToken = default)
     {
         try
@@ -56,6 +59,7 @@ public partial class CategoryController
     }
 
     [HttpPut("{id}")]
+    [Authorize("ManagerPolicy")]
     public async Task<IActionResult> PutAsync([Required] int id, string name, string image, int? parenId, CancellationToken cancellationToken = default)
     {
         try

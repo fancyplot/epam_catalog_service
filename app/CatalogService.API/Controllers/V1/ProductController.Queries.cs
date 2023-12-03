@@ -1,5 +1,6 @@
 ﻿using CatalogService.Domain.Queries.V1.GetAllProducts;
 using CatalogService.Domain.Queries.V1.GetProduct;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.API.Controllers.V1;
@@ -7,6 +8,7 @@ namespace CatalogService.API.Controllers.V1;
 public partial class ProductController
 {
     [HttpGet("{name}")]
+    [Authorize("BuyerPolicy")]
     public async Task<IActionResult> GetAsync(string name, CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(new GetProductQuery()
@@ -21,6 +23,7 @@ public partial class ProductController
     }
 
     [HttpGet]
+    [Authorize("BuyerPolicy")]
     public async Task<IActionResult> GetAllAsync(int? categoryId = null, int? pageNumber = null, int? pageSize = null, CancellationToken cancellationToken = default)
     {
         if (pageNumber != null && pageNumber <= 0)

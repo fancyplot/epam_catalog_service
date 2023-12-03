@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.API.Controllers.V1
 {
     [Route("v1/[controller]")]
     [ApiController]
-    public partial class CategoryController : ControllerBase
+ public partial class CategoryController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;

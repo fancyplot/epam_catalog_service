@@ -4,12 +4,14 @@ using CatalogService.Domain.Commands.V1.CreateProduct;
 using CatalogService.Domain.Commands.V1.DeleteProduct;
 using CatalogService.Domain.Commands.V1.UpdateProduct;
 using CatalogService.API.Models.V1;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CatalogService.API.Controllers.V1;
 
 public partial class ProductController
 {
     [HttpPost]
+    [Authorize("ManagerPolicy")]
     public async Task<IActionResult> PostAsync([Required] string name, [Required] int categoryId, [Required] decimal price, [Required] int amount, string image, string description,  CancellationToken cancellationToken = default)
     {
         try
@@ -34,6 +36,7 @@ public partial class ProductController
     }
 
     [HttpDelete("{name}")]
+    [Authorize("ManagerPolicy")]
     public async Task<IActionResult> DeleteAsync([Required] string name, [Required] int categoryId, CancellationToken cancellationToken = default)
     {
         try
@@ -53,6 +56,7 @@ public partial class ProductController
     }
 
     [HttpPut("{id}")]
+    [Authorize("ManagerPolicy")]
     public async Task<IActionResult> PutAsync(UpdateProductRequest updateProductRequest, CancellationToken cancellationToken = default)
     {
         try

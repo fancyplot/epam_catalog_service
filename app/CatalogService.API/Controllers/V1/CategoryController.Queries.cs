@@ -1,5 +1,6 @@
 ﻿using CatalogService.Domain.Queries.V1.GetAllCategories;
 using CatalogService.Domain.Queries.V1.GetCategory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.API.Controllers.V1;
@@ -7,6 +8,7 @@ namespace CatalogService.API.Controllers.V1;
 public partial class CategoryController
 {
     [HttpGet("{name}")]
+    [Authorize("BuyerPolicy")]
     public async Task<IActionResult> GetAsync(string name, CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(new GetCategoryQuery()
@@ -21,6 +23,7 @@ public partial class CategoryController
     }
 
     [HttpGet]
+    [Authorize("BuyerPolicy")]
     public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(new GetAllCategoriesQuery(), cancellationToken);
