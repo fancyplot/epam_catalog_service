@@ -1,0 +1,1 @@
+docker build -f CatalogService.API\Dockerfile --force-rm -t catalog-service .

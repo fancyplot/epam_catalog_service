@@ -1,0 +1,43 @@
+version: '3'
+services:
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: 'Welcome1!'
+    ports:
+      - 1433:1433
+    networks:
+      - eshop
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
+    networks:
+        - eshop
+  catalog-service:
+    image: catalog-service:latest
+    container_name: 'CatalogService.API'
+    ports:
+        - 5202:80
+    networks:
+        - eshop
+  carting-service:
+    image: cartingserviceapi:dev
+    container_name: 'CartingService.API'
+    ports:
+        - 5203:80
+    networks:
+        - eshop
+  identity-service:
+    image: duendeidentityservice:dev
+    container_name: 'DuendeIdentityService'
+    ports:
+        - 5204:80
+    networks:
+        - eshop
+networks:
+  eshop:
+    driver: bridge

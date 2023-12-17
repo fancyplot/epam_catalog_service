@@ -23,6 +23,8 @@ public partial class CategoryController
     {
         try
         {
+            var user = this.User;
+          
             var result = await _mediator.Send(new CreateCategoryCommand()
             {
                 Name = name,
